@@ -1,0 +1,230 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Qualification Details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<style>
+  :root {
+    --ion-safe-area-top: 20px;
+    --ion-safe-area-bottom: 22px;
+  }
+</style>
+<ion-content fullscreen>
+  <form #form="ngForm" (ngSubmit)="save(form)" method="post">
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <ion-label>Highest Qualification</ion-label>
+        <ion-select
+          [(ngModel)]="hQualificationSel"
+          [selectedText]="hQualificationSel"
+          (ionChange)="getHQuali($event)"
+          name="hQualification"
+          required
+        >
+          <ion-select-option *ngFor="let item of quali" value="{{ item.name }}"
+            >{{ item.name }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-input [(ngModel)]="id" type="hidden" name="id" ngModel></ion-input>
+      <ion-item>
+        <ion-label position="stacked"
+          >Qualification Grade <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input
+          [(ngModel)]="hGrade"
+          name="hGrade"
+          type="text"
+          placeholder="Grade"
+          ngModel
+          required
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked"
+          >Institution Name <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input
+          [(ngModel)]="hSchoolName"
+          name="hSchoolName"
+          type="text"
+          placeholder="Institution Name"
+          ngModel
+          required
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label
+          >Programme Completed <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-select
+          required
+          [(ngModel)]="hCompletedSel"
+          [selectedText]="hCompletedSel"
+          (ionChange)="getHProgramme($event)"
+          name="hCompleted"
+        >
+          <ion-select-option value="Yes">
+            Yes
+          </ion-select-option>
+          <ion-select-option value="No">
+            No
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label
+          >Programme Year <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-datetime
+          [(ngModel)]="hProgrammeYearSel"
+          (ionChange)="getHYear($event)"
+          placeholder="Programme Year"
+          required
+          name="hProgrammeYear"
+          displayFormat="YYYY"
+        ></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Previous Qualification</ion-label>
+        <ion-select
+          [(ngModel)]="pQualificationSel"
+          [selectedText]="pQualificationSel"
+          (ionChange)="getPQuali($event)"
+          name="pQualification"
+        >
+          <ion-select-option *ngFor="let item of quali" value="{{ item.name }}"
+            >{{ item.name }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Qualification Grade </ion-label>
+        <ion-input
+          [(ngModel)]="pGrade"
+          name="pGrade"
+          type="text"
+          placeholder="Grade"
+          ngModel
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Institution Name </ion-label>
+        <ion-input
+          [(ngModel)]="pSchoolName"
+          name="pSchoolName"
+          type="text"
+          placeholder="Institution Name"
+          ngModel
+        ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Programme Completed</ion-label>
+        <ion-select
+          [(ngModel)]="pCompletedSel"
+          [selectedText]="pCompletedSel"
+          (ionChange)="getPProgramme($event)"
+          name="pCompleted"
+        >
+          <ion-select-option value="Yes">
+            Yes
+          </ion-select-option>
+          <ion-select-option value="No">
+            No
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Programme Year</ion-label>
+        <ion-datetime
+          [(ngModel)]="pProgrammeYearSel"
+          (ionChange)="getPYear($event)"
+          placeholder="Programme Year"
+          name="pProgrammeYear"
+          displayFormat="YYYY"
+        ></ion-datetime>
+      </ion-item>
+      <!-- <ion-item>
+        <ion-label position="stacked"
+          >High School Name <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-input
+          [(ngModel)]="highSchoolName"
+          name="highSchoolName"
+          type="text"
+          placeholder="High School Name"
+          ngModel
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label
+          >Programme Year <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-datetime
+          [(ngModel)]="highSchoolComletionYrSel"
+          (ionChange)="getHighSchoolYear($event)"
+          placeholder="Programme Year"
+          name="completionYr"
+          required
+          displayFormat="YYYY"
+        ></ion-datetime>
+      </ion-item> -->
+      <ion-item>
+        <ion-label
+          >English Test <ion-text color="danger">*</ion-text></ion-label
+        >
+        <ion-select
+          [(ngModel)]="englishTestSel"
+          [selectedText]="englishTestSel"
+          (ionChange)="getEnglishTest($event)"
+          name="englishTest"
+          required
+        >
+          <ion-select-option value="IELTS">
+            IELTS
+          </ion-select-option>
+          <ion-select-option value="TOEFL">
+            TOEFL
+          </ion-select-option>
+          <ion-select-option value="PTE">
+            PTE
+          </ion-select-option>
+          <ion-select-option value="NONE">
+            NONE
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-card
+      color="primary"
+      (click)="showModal()"
+      class="ion-padding"
+      *ngIf="data"
+    >
+      <ion-card-header class="ion-text-center">
+        <ion-card-subtitle>{{ data.name }}</ion-card-subtitle>
+        <ion-card-title>{{ data.Institution.name }}</ion-card-title>
+      </ion-card-header>
+      <div class="ion-text-center">
+        (Tap to change course)
+      </div>
+    </ion-card>
+    <ion-toolbar>
+      <div class="ion-padding">
+        <ion-button
+          expand="block"
+          [disabled]="form.invalid"
+          type="submit"
+          class="ion-no-margin"
+          >Save & Continue <ion-icon name="save"></ion-icon
+        ></ion-button>
+      </div>
+    </ion-toolbar>
+  </form>
+</ion-content>

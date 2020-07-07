@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Universities & Faculties</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="ion-padding">
+  <ion-searchbar
+    placeholder="Search by school name"
+    (ionInput)="getFilter($event)"
+  ></ion-searchbar>
+  <ion-card *ngFor="let item of results">
+    <img src="{{ avatarUrl }}{{ item.uni.banner }}" />
+    <ion-card-header>
+      <ion-card-title text-center
+        ><strong>{{ item.uni.name }}</strong></ion-card-title
+      >
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item
+          routerLink="/pages/course/{{ fac.facultyId }}/{{ item.uni.id }}"
+          routerDirection="forward"
+          *ngFor="let fac of item.faculty"
+        >
+          <ion-avatar slot="start">
+            <img
+              src="{{ avatarUrl }}{{
+                fac.facultyImage ? fac.facultyImage : ''
+              }}.png"
+            />
+          </ion-avatar>
+          <ion-label
+            ><h5 class="ion-text-wrap">
+              {{ fac.name }}
+            </h5></ion-label
+          >
+          <ion-badge color="primary" slot="end"
+            >{{ fac.totalCourse }}</ion-badge
+          >
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

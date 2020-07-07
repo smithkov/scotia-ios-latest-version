@@ -1,0 +1,153 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-searchbar
+    *ngIf="isShoWCourse"
+    placeholder="Search by course name"
+    (ionInput)="getFilter($event)"
+  ></ion-searchbar>
+  <ion-refresher
+    *ngIf="isShoWCourse"
+    slot="fixed"
+    (ionRefresh)="doRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="isShoWCourse">
+    <ion-item (click)="courseDetail(item)" *ngFor="let item of results">
+      <ion-avatar slot="start">
+        <img src="{{ avatarUrl }}{{ item.path }}" />
+      </ion-avatar>
+      <ion-label>
+        <h2 class="ion-text-wrap">{{ item.name }}</h2>
+        <h3>{{ item.fee }} | {{item.DegreeType.name}}</h3>
+        <p>{{item.Institution.name}}</p>
+
+        <p></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll
+    *ngIf="isShoWCourse"
+    threshold="100px"
+    (ionInfinite)="loadData($event)"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <!---Course details starts here-->
+  <ion-item *ngIf="isShoWDetail"
+    ><ion-button (click)="closeDetail()" expand="block"
+      ><ion-icon name="arrow-round-back"></ion-icon>Back</ion-button
+    >
+
+    <ion-button slot="end" (click)="select()" expand="block"
+      ><ion-icon></ion-icon>Select</ion-button
+    >
+  </ion-item>
+  <ion-card *ngIf="isShoWDetail">
+    <img src="{{ avatarUrl }}{{ data.path }}" />
+    <ion-card-header>
+      <ion-card-title> {{ data.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-icon slot="start" name="school"></ion-icon>
+          <ion-label>{{ data.Institution.name }}</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <ion-icon slot="start" name="cash"></ion-icon>
+        <ion-label>{{ data.fee }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="cash"></ion-icon>
+        <ion-label>£ {{ data.scholarshipAmount }} (Scholarship)</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="locate"></ion-icon>
+        <ion-label>{{ data.StudyArea.name }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="done-all"></ion-icon>
+        <ion-label>{{ data.requirement }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="book"></ion-icon>
+        <ion-label>{{ data.DegreeType.name }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="time"></ion-icon>
+        <ion-label>{{ data.duration }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="calendar"></ion-icon>
+        <ion-label>{{ data.intake }} Intake</ion-label>
+      </ion-item>
+      <ion-text color="primary">
+        <h1>Requirements</h1>
+      </ion-text>
+      <br />
+      <p [innerHTML]="data.DegreeType.requirements"></p>
+
+      <!-- <ion-button
+        size="large"
+        type="button"
+        routerLink="/pages/form"
+        routerDirection="forward"
+        expand="block"
+        >Apply <ion-icon slot="end"></ion-icon>
+      </ion-button> -->
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-list *ngIf="isShoWSchool">
+    <ion-item-group *ngFor="let item of results">
+      <ion-item-divider>
+        <ion-label
+          ><h1 class="ion-text-capitalize">{{ item.uni.name }}</h1></ion-label
+        >
+      </ion-item-divider>
+
+      <ion-item
+        *ngFor="let fac of item.faculty"
+        (click)="getCourses(fac.facultyId, item.uni.id)"
+      >
+        <ion-label
+          ><h5>
+            {{ fac.name }}
+          </h5></ion-label
+        >
+        <ion-badge color="primary" slot="end">{{ fac.totalCourse }}</ion-badge>
+      </ion-item>
+    </ion-item-group>
+  </ion-list> -->
+
+<!-- <ion-list *ngIf="isShoWCourse">
+    <ion-item
+      ><ion-button (click)="closeCourse()" expand="block"
+        ><ion-icon name="arrow-round-back"></ion-icon>Back</ion-button
+      ></ion-item
+    >
+    <ion-item *ngFor="let item of courses" (click)="courseDetail(item)">
+      <ion-avatar slot="start">
+        <img src="{{ avatarUrl }}{{ item.path }}" />
+      </ion-avatar>
+      <ion-label>
+        <h2 class="ion-text-wrap">{{ item.name }}</h2>
+        <h3>{{ item.fee }}</h3>
+        <p>{{ item.DegreeType.name }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list> -->
